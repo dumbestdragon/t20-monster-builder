@@ -22,7 +22,7 @@
     "minimumCoreVersion": "9",
     "compatibleCoreVersion": "10",
     "url": "https://github.com/dumbestdragon/t20-monster-builder",
-    "manifest": "https://raw.githubusercontent.com/dumbestdragon/t20-monster-builder/main/module.json",
-    "download": "https://github.com/dumbestdragon/t20-monster-builder/archive/refs/heads/main.zip",
+    "manifest": "https://github.com/dumbestdragon/t20-monster-builder/blob/main/module.json",
+    "download": "https://github.com/dumbestdragon/t20-monster-builder/archive/main.zip",
     "id": "t20-monster-builder"
 }
