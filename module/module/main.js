@@ -82,3 +82,75 @@ Hooks.on('renderActorDirectory', (_app, html) => {
         header.append(button);
     }
 });
+
+// Updated to add the button to the right-hand sidebar in FoundryVTT version 12
+Hooks.on('renderSidebarTab', (app, html) => {
+    if (app.options.id === 'actors') {
+        const builder = new MonsterBuilder();
+
+        // Create the "Criar Monstro" button
+        const button = document.createElement('button');
+        button.className = 'create-monster';
+        button.innerHTML = '<i class="fas fa-dragon"></i> Criar Monstro';
+
+        button.addEventListener('click', async () => {
+            const content = await renderTemplate('modules/t20-monster-builder/templates/monster-builder.html', {
+                ndOptions: Array.from({ length: 20 }, (_, i) => i + 1)
+            });
+
+            const dialog = new Dialog({
+                title: 'Construtor de Monstros T20',
+                content,
+                buttons: {
+                    submit: {
+                        label: 'Criar',
+                        callback: async (html) => {
+                            const form = html.querySelector('form');
+                            if (!form) return;
+
+                            const formData = new FormData(form);
+                            const mode = formData.get('mode');
+                            const type = formData.get('monsterType');
+                            const name = formData.get('monsterName');
+
+                            if (mode === 'Template') {
+                                const nd = formData.get('nd');
+                                const attributes = builder.generateMonsterFromTemplate(nd, type);
+                                if (attributes) {
+                                    await builder.createMonsterActor({ ...attributes, name, type });
+                                }
+                            } else {
+                                const attributes = {
+                                    nd: '0',
+                                    valorAtaque: parseInt(formData.get('ndValorAtaque')) || 1,
+                                    danoMedio: parseInt(formData.get('ndDanoMedio')) || 1,
+                                    defesa: parseInt(formData.get('ndDefesa')) || 10,
+                                    resistenciaForte: parseInt(formData.get('ndResistenciaForte')) || 0,
+                                    resistenciaMedia: parseInt(formData.get('ndResistenciaMedia')) || 0,
+                                    resistenciaFraca: parseInt(formData.get('ndResistenciaFraca')) || 0,
+                                    pv: parseInt(formData.get('ndPV')) || 1,
+                                    efeitoPadraoCd: parseInt(formData.get('ndEfeitoPadraoCd')) || 10
+                                };
+                                const finalND = builder.calculateFinalND(attributes);
+                                attributes.nd = finalND.toString();
+                                await builder.createMonsterActor({ ...attributes, name, type });
+                            }
+                        }
+                    },
+                    cancel: {
+                        label: 'Cancelar'
+                    }
+                },
+                default: 'submit'
+            });
+
+            dialog.render(true);
+        });
+
+        // Add the button to the sidebar
+        const footer = html.find('.directory-footer');
+        if (footer.length) {
+            footer.append(button);
+        }
+    }
+});
