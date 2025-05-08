@@ -6,13 +6,15 @@ import { initializeFormHandlers } from '../scripts/form-handler';
 Hooks.once('init', () => {
     console.log('T20 Monster Builder | Inicializando módulo');
 });
-// Adjusted type handling to support both HTMLElement and JQuery<HTMLElement>
+// Added debugging logs to verify hook execution
 Hooks.on('renderActorDirectory', (_app, html) => {
+    console.log('renderActorDirectory hook triggered');
     const builder = new MonsterBuilder();
     const button = document.createElement('button');
     button.className = 'create-monster';
     button.innerHTML = '<i class="fas fa-dragon"></i> Criar Monstro';
     button.addEventListener('click', async () => {
+        console.log('Criar Monstro button clicked');
         const content = await renderTemplate('modules/t20-monster-builder/templates/monster-builder.html', {
             ndOptions: Array.from({ length: 20 }, (_, i) => i + 1)
         });
@@ -23,6 +25,7 @@ Hooks.on('renderActorDirectory', (_app, html) => {
                 submit: {
                     label: 'Criar',
                     callback: async (html) => {
+                        console.log('Dialog submit button clicked');
                         const form = html instanceof HTMLElement
                             ? html.querySelector('form')
                             : html.find('form')[0];
@@ -86,6 +89,7 @@ Hooks.on('renderActorDirectory', (_app, html) => {
 
 // Updated to add the button to the right-hand sidebar in FoundryVTT version 12
 Hooks.on('renderSidebarTab', (app, html) => {
+    console.log('renderSidebarTab hook triggered for app:', app.options.id);
     if (app.options.id === 'actors') {
         const builder = new MonsterBuilder();
 
@@ -95,6 +99,7 @@ Hooks.on('renderSidebarTab', (app, html) => {
         button.innerHTML = '<i class="fas fa-dragon"></i> Criar Monstro';
 
         button.addEventListener('click', async () => {
+            console.log('Criar Monstro button clicked in sidebar');
             const content = await renderTemplate('modules/t20-monster-builder/templates/monster-builder.html', {
                 ndOptions: Array.from({ length: 20 }, (_, i) => i + 1)
             });
@@ -106,6 +111,7 @@ Hooks.on('renderSidebarTab', (app, html) => {
                     submit: {
                         label: 'Criar',
                         callback: async (html) => {
+                            console.log('Dialog submit button clicked in sidebar');
                             const form = html.querySelector('form');
                             if (!form) return;
 
