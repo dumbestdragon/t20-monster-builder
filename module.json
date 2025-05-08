@@ -14,15 +14,8 @@
     ],
     "styles": ["./styles/monster-builder.css"],
     "templates": ["./templates/monster-builder.html"],
-    "languages": [
-        {
-            "lang": "pt-BR",
-            "name": "Português (Brasil)",
-            "path": "./languages/pt-BR.json"
-        }
-    ],
-    "minimumCoreVersion": "9",
-    "compatibleCoreVersion": "10",
+    "minimumCoreVersion": "12",
+    "compatibleCoreVersion": "13",
     "url": "https://github.com/dumbestdragon/t20-monster-builder",
     "manifest": "https://raw.githubusercontent.com/dumbestdragon/t20-monster-builder/main/module.json",
     "download": "https://github.com/dumbestdragon/t20-monster-builder/archive/refs/heads/main.zip",
