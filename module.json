@@ -6,16 +6,19 @@
     "author": "Dumb Dragon",
     "systems": ["tormenta20"],
     "scripts": [
-        "./module/module/monsterBuilder.js",
-        "./module/module/monsterTables.js",
-        "./module/module/types.js",
-        "./module/module/form-handler.js",
-        "./module/module/main.js"
+        "./scripts/main.js",
+        "./scripts/monsterBuilder.js",
+        "./scripts/monsterTables.js",
+        "./scripts/form-handler.js",
+        "./scripts/types.js"
     ],
     "styles": ["./styles/monster-builder.css"],
     "templates": ["./templates/monster-builder.html"],
-    "minimumCoreVersion": "12",
-    "compatibleCoreVersion": "12",
+    "compatibility": {
+        "minimum": "12",
+        "verified": "12",
+        "maximum": "13"
+    },
     "url": "https://github.com/dumbestdragon/t20-monster-builder",
     "manifest": "https://raw.githubusercontent.com/dumbestdragon/t20-monster-builder/main/module.json",
     "download": "https://github.com/dumbestdragon/t20-monster-builder/archive/refs/heads/main.zip",

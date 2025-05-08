@@ -4,7 +4,7 @@
  * Este módulo é responsável pela criação e cálculo de todas as estatísticas
  * dos monstros no sistema T20
  */
-import { ndTableSolo, ndTableLacaio, ndTableEspecial } from './monsterTables';
+import { ndTableSolo, ndTableLacaio, ndTableEspecial } from '../scripts/monsterTables';
 export class MonsterBuilder {
     // Construtor básico - não necessita inicialização
     constructor() { }

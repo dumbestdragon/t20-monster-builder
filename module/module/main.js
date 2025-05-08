@@ -1,6 +1,7 @@
 // Arquivo principal do módulo - Lida com inicialização e configuração da UI
-import { MonsterBuilder } from './monsterBuilder';
-import { initializeFormHandlers } from './form-handler';
+// Updated paths to match the new directory structure
+import { MonsterBuilder } from '../scripts/monsterBuilder';
+import { initializeFormHandlers } from '../scripts/form-handler';
 // Inicializa o módulo quando o Foundry VTT inicia
 Hooks.once('init', () => {
     console.log('T20 Monster Builder | Inicializando módulo');
