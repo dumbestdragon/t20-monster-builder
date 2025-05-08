@@ -162,3 +162,81 @@ Hooks.on('renderSidebarTab', (app, html) => {
         }
     }
 });
+
+// Add a new control button to the left-hand toolbar
+Hooks.on('getSceneControlButtons', (controls) => {
+    console.log('Adding T20 Monster Builder button to scene controls');
+
+    // Add a new category for the T20 Monster Builder
+    controls.push({
+        name: 't20-monster-builder',
+        title: 'T20 Monster Builder',
+        icon: 'fas fa-dragon',
+        layer: 'controls',
+        tools: [
+            {
+                name: 'create-monster',
+                title: 'Criar Monstro',
+                icon: 'fas fa-plus-circle',
+                onClick: async () => {
+                    console.log('T20 Monster Builder button clicked');
+
+                    const content = await renderTemplate('modules/t20-monster-builder/templates/monster-builder.html', {
+                        ndOptions: Array.from({ length: 20 }, (_, i) => i + 1)
+                    });
+
+                    const dialog = new Dialog({
+                        title: 'Construtor de Monstros T20',
+                        content,
+                        buttons: {
+                            submit: {
+                                label: 'Criar',
+                                callback: async (html) => {
+                                    console.log('Dialog submit button clicked');
+                                    const form = html.querySelector('form');
+                                    if (!form) return;
+
+                                    const formData = new FormData(form);
+                                    const mode = formData.get('mode');
+                                    const type = formData.get('monsterType');
+                                    const name = formData.get('monsterName');
+
+                                    if (mode === 'Template') {
+                                        const nd = formData.get('nd');
+                                        const builder = new MonsterBuilder();
+                                        const attributes = builder.generateMonsterFromTemplate(nd, type);
+                                        if (attributes) {
+                                            await builder.createMonsterActor({ ...attributes, name, type });
+                                        }
+                                    } else {
+                                        const attributes = {
+                                            nd: '0',
+                                            valorAtaque: parseInt(formData.get('ndValorAtaque')) || 1,
+                                            danoMedio: parseInt(formData.get('ndDanoMedio')) || 1,
+                                            defesa: parseInt(formData.get('ndDefesa')) || 10,
+                                            resistenciaForte: parseInt(formData.get('ndResistenciaForte')) || 0,
+                                            resistenciaMedia: parseInt(formData.get('ndResistenciaMedia')) || 0,
+                                            resistenciaFraca: parseInt(formData.get('ndResistenciaFraca')) || 0,
+                                            pv: parseInt(formData.get('ndPV')) || 1,
+                                            efeitoPadraoCd: parseInt(formData.get('ndEfeitoPadraoCd')) || 10
+                                        };
+                                        const builder = new MonsterBuilder();
+                                        const finalND = builder.calculateFinalND(attributes);
+                                        attributes.nd = finalND.toString();
+                                        await builder.createMonsterActor({ ...attributes, name, type });
+                                    }
+                                }
+                            },
+                            cancel: {
+                                label: 'Cancelar'
+                            }
+                        },
+                        default: 'submit'
+                    });
+
+                    dialog.render(true);
+                }
+            }
+        ]
+    });
+});
