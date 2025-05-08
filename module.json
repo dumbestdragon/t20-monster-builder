@@ -14,10 +14,9 @@
         "maximum": "13"
     },
     "esmodules": [
-        "./module/module/main.js",
         "./module/module/monsterBuilder.js",
         "./module/module/monsterTables.js",
-        "./module/module/form-handler.js",
+        "./module/module/main.js",
         "./module/module/types.js"
     ],
     "styles": ["./styles/monster-builder.css"],
