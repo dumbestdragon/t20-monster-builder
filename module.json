@@ -8,6 +8,8 @@
     "scripts": [
         "module/module/monsterBuilder.js",
         "module/module/monsterTables.js",
+        "module/module/types.js",
+        "module/module/form-handler.js",
         "module/module/main.js"
     ],
     "styles": ["styles/monster-builder.css"],
