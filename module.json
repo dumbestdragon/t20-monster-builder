@@ -2,7 +2,7 @@
     "id": "t20-monster-builder",
     "title": "T20 Monster Builder",
     "description": "Construtor de monstros para o sistema Tormenta20 no FoundryVTT",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Dumb Dragon"
