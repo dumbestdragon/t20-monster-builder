@@ -1,6 +1,3 @@
-// Updated paths to match the new directory structure
-import { initializeFormHandlers } from '../scripts/form-handler';
-
 export const initializeFormHandlers = (html) => {
     const modeSelect = html.find('#builderMode');
     const templateMode = html.find('#templateMode');

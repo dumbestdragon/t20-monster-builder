@@ -4,7 +4,7 @@
  * Este módulo é responsável pela criação e cálculo de todas as estatísticas
  * dos monstros no sistema T20
  */
-import { ndTableSolo, ndTableLacaio, ndTableEspecial } from '../scripts/monsterTables';
+import { ndTableSolo, ndTableLacaio, ndTableEspecial } from './monsterTables';
 export class MonsterBuilder {
     // Construtor básico - não necessita inicialização
     constructor() { }
@@ -59,8 +59,8 @@ export class MonsterBuilder {
      * @param data - Atributos e metadados do monstro
      * @returns Promise<Actor> - O Actor criado no Foundry VTT
      */
-    // Updated to use Actor.implementation.createDocuments for creating actors
     async createMonsterActor(data) {
+        // Cria estrutura de dados do ator de acordo com o schema do Foundry VTT
         const actorData = {
             name: data.name,
             type: 'npc',
@@ -83,9 +83,7 @@ export class MonsterBuilder {
                 }
             }
         };
-
-        const created = await Actor.implementation.createDocuments([actorData]);
-        return created[0];
+        return await Actor.create(actorData);
     }
 }
 /**
