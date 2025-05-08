@@ -1,0 +1,93 @@
+<!-- Formulário do Construtor de Monstros - Interface para criar monstros T20 -->
+<form class="monster-builder">
+    <!-- Seleção do modo de criação - Template ou Guiado -->
+    <div class="form-group mode-select">
+        <label>Modo de Criação:</label>
+        <select name="mode" id="builderMode">
+            <option value="Template">Modo Template</option>
+            <option value="Guiado">Modo Guiado</option>
+        </select>
+    </div>
+
+    <!-- Seleção do tipo de monstro - Solo, Lacaio ou Especial -->
+    <div class="form-group">
+        <label>Tipo de Criatura:</label>
+        <select name="monsterType" id="monsterType">
+            <option value="Solo">Solo</option>
+            <option value="Lacaio">Lacaio</option>
+            <option value="Especial">Especial</option>
+        </select>
+    </div>
+
+    <!-- Seção modo Template - Usa valores predefinidos baseados no ND -->
+    <div id="templateMode">
+        <div class="form-group">
+            <label>ND:</label>
+            <select name="nd" id="ndSelect">
+                <!-- Opções fixas de ND -->
+                <option value="1/4">1/4</option>
+                <option value="1/2">1/2</option>
+                <!-- Opções dinâmicas de ND (1-20) -->
+                {{#each ndOptions}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                <!-- Valores especiais de ND -->
+                <option value="S">S</option>
+                <option value="S+">S+</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Seção modo Guiado - Entrada manual de todos os valores -->
+    <div id="guidedMode" style="display: none;">
+        <!-- ND do bônus de ataque -->
+        <div class="form-group">
+            <label>ND do Valor de Ataque:</label>
+            <input type="number" name="ndValorAtaque" min="1" max="20" value="1">
+        </div>
+        <!-- ND do dano médio -->
+        <div class="form-group">
+            <label>ND do Dano Médio:</label>
+            <input type="number" name="ndDanoMedio" min="1" max="20" value="1">
+        </div>
+        <!-- ND da defesa -->
+        <div class="form-group">
+            <label>ND da Defesa:</label>
+            <input type="number" name="ndDefesa" min="1" max="20" value="1">
+        </div>
+        <!-- ND da resistência forte (80%) -->
+        <div class="form-group">
+            <label>ND da Resistência Forte (80%):</label>
+            <input type="number" name="ndResistenciaForte" min="1" max="20" value="1">
+        </div>
+        <!-- ND da resistência média (50%) -->
+        <div class="form-group">
+            <label>ND da Resistência Média (50%):</label>
+            <input type="number" name="ndResistenciaMedia" min="1" max="20" value="1">
+        </div>
+        <!-- ND da resistência fraca (20%) -->
+        <div class="form-group">
+            <label>ND da Resistência Fraca (20%):</label>
+            <input type="number" name="ndResistenciaFraca" min="1" max="20" value="1">
+        </div>
+        <!-- ND dos pontos de vida -->
+        <div class="form-group">
+            <label>ND dos PV:</label>
+            <input type="number" name="ndPV" min="1" max="20" value="1">
+        </div>
+        <!-- ND da CD de efeitos -->
+        <div class="form-group">
+            <label>ND do Efeito Padrão (CD):</label>
+            <input type="number" name="ndEfeitoPadraoCd" min="1" max="20" value="1">
+        </div>
+    </div>
+
+    <!-- Entrada do nome do monstro -->
+    <div class="form-group">
+        <label>Nome da Criatura:</label>
+        <input type="text" name="monsterName" required>
+    </div>
+
+    <!-- Botão de envio do formulário -->
+    <button type="submit" class="generate-monster">Gerar Ficha de Monstro</button>
+</form>
