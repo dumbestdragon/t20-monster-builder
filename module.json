@@ -14,11 +14,11 @@
         "maximum": "13"
     },
     "esmodules": [
-        "./scripts/main.js",
-        "./scripts/monsterBuilder.js",
-        "./scripts/monsterTables.js",
-        "./scripts/form-handler.js",
-        "./scripts/types.js"
+        "./module/module/main.js",
+        "./module/module/monsterBuilder.js",
+        "./module/module/monsterTables.js",
+        "./module/module/form-handler.js",
+        "./module/module/types.js"
     ],
     "styles": ["./styles/monster-builder.css"],
     "url": "https://github.com/dumbestdragon/t20-monster-builder",
