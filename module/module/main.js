@@ -5,6 +5,7 @@ import { initializeFormHandlers } from '../scripts/form-handler';
 // Inicializa o módulo quando o Foundry VTT inicia
 Hooks.once('init', () => {
     console.log('T20 Monster Builder | Inicializando módulo');
+    console.log('T20 Monster Builder | Module initialized successfully');
 });
 // Added debugging logs to verify hook execution
 Hooks.on('renderActorDirectory', (_app, html) => {
@@ -87,7 +88,7 @@ Hooks.on('renderActorDirectory', (_app, html) => {
     }
 });
 
-// Updated to add the button to the right-hand sidebar in FoundryVTT version 12
+// Updated to use renderSidebarTab for Actors tab
 Hooks.on('renderSidebarTab', (app, html) => {
     console.log('renderSidebarTab hook triggered for app:', app.options.id);
     if (app.options.id === 'actors') {
