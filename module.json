@@ -1,11 +1,19 @@
 {
-    "name": "t20-monster-builder",
+    "id": "t20-monster-builder",
     "title": "T20 Monster Builder",
     "description": "Construtor de monstros para o sistema Tormenta20 no FoundryVTT",
     "version": "1.0.0",
-    "author": "Dumb Dragon",
-    "systems": ["tormenta20"],
-    "scripts": [
+    "authors": [
+        {
+            "name": "Dumb Dragon"
+        }
+    ],
+    "compatibility": {
+        "minimum": "12",
+        "verified": "12",
+        "maximum": "13"
+    },
+    "esmodules": [
         "./scripts/main.js",
         "./scripts/monsterBuilder.js",
         "./scripts/monsterTables.js",
@@ -13,14 +21,7 @@
         "./scripts/types.js"
     ],
     "styles": ["./styles/monster-builder.css"],
-    "templates": ["./templates/monster-builder.html"],
-    "compatibility": {
-        "minimum": "12",
-        "verified": "12",
-        "maximum": "13"
-    },
     "url": "https://github.com/dumbestdragon/t20-monster-builder",
     "manifest": "https://raw.githubusercontent.com/dumbestdragon/t20-monster-builder/main/module.json",
-    "download": "https://github.com/dumbestdragon/t20-monster-builder/archive/refs/heads/main.zip",
-    "id": "t20-monster-builder"
+    "download": "https://github.com/dumbestdragon/t20-monster-builder/archive/refs/heads/main.zip"
 }

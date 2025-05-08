@@ -59,8 +59,8 @@ export class MonsterBuilder {
      * @param data - Atributos e metadados do monstro
      * @returns Promise<Actor> - O Actor criado no Foundry VTT
      */
+    // Updated to use Actor.implementation.createDocuments for creating actors
     async createMonsterActor(data) {
-        // Cria estrutura de dados do ator de acordo com o schema do Foundry VTT
         const actorData = {
             name: data.name,
             type: 'npc',
@@ -83,7 +83,9 @@ export class MonsterBuilder {
                 }
             }
         };
-        return await Actor.create(actorData);
+
+        const created = await Actor.implementation.createDocuments([actorData]);
+        return created[0];
     }
 }
 /**
