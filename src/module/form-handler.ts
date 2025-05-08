@@ -1,24 +1,38 @@
 // Manipulador de Formulário - Gerencia comportamento dinâmico do formulário e troca de modos
+interface JQueryFormHandler {
+    (html: JQuery<HTMLElement>): void;
+}
 
-// Aguarda o DOM ser completamente carregado antes de anexar manipuladores de eventos
-document.addEventListener('DOMContentLoaded', () => {
-    // Obtém referências aos elementos do formulário
-    const modeSelect = document.getElementById('builderMode') as HTMLSelectElement;
-    const templateMode = document.getElementById('templateMode');
-    const guidedMode = document.getElementById('guidedMode');
+export const initializeFormHandlers: JQueryFormHandler = (html: JQuery<HTMLElement>) => {
+    const modeSelect = html.find('#builderMode');
+    const templateMode = html.find('#templateMode');
+    const guidedMode = html.find('#guidedMode');
 
-    // Configura comportamento de troca de modos se todos os elementos estiverem presentes
-    if (modeSelect && templateMode && guidedMode) {
-        modeSelect.addEventListener('change', (e) => {
-            // Mostra/esconde seções apropriadas do formulário baseado no modo selecionado
-            const mode = (e.target as HTMLSelectElement).value;
-            if (mode === 'Template') {
-                templateMode.style.display = 'block';
-                guidedMode.style.display = 'none';
-            } else {
-                templateMode.style.display = 'none';
-                guidedMode.style.display = 'block';
-            }
-        });
+    // Verify that all required elements exist
+    if (!modeSelect.length || !templateMode.length || !guidedMode.length) {
+        console.error('Required form elements not found');
+        return;
     }
-});
+
+    // Configura comportamento de troca de modos
+    modeSelect.on('change', (e) => {
+        const mode = $(e.target).val();
+        if (mode === 'Template') {
+            templateMode.show();
+            guidedMode.hide();
+        } else {
+            templateMode.hide();
+            guidedMode.show();
+        }
+    });
+
+    // Set initial state based on current selection
+    const initialMode = modeSelect.val();
+    if (initialMode === 'Template') {
+        templateMode.show();
+        guidedMode.hide();
+    } else {
+        templateMode.hide();
+        guidedMode.show();
+    }
+}

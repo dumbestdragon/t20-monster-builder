@@ -2,6 +2,7 @@
 
 import { MonsterBuilder } from './monsterBuilder';
 import { MonsterType } from './types';
+import { initializeFormHandlers } from './form-handler';
 
 // Inicializa o módulo quando o Foundry VTT inicia
 Hooks.once('init', () => {
@@ -20,52 +21,44 @@ Hooks.on('renderActorDirectory', (_app: Application, html: JQuery<HTMLElement>) 
 
     // Manipula clique no botão - Abre diálogo de criação de monstro
     button.click(async () => {
+        const content = await renderTemplate('modules/t20-monster-builder/templates/monster-builder.html', {
+            ndOptions: Array.from({length: 20}, (_, i) => i + 1)
+        });
+
         const dialog = new Dialog({
             title: 'Construtor de Monstros T20',
-            // Carrega e renderiza o template HTML com opções de ND
-            content: await renderTemplate('modules/t20-monster-builder/templates/monster-builder.html', {
-                ndOptions: Array.from({length: 20}, (_, i) => i + 1)
-            }),
+            content,
             buttons: {
                 submit: {
                     label: 'Criar',
-                    callback: async (htmlOrJQuery: HTMLElement | JQuery<HTMLElement>) => {
-                        // Extrai elemento do formulário baseado no tipo de entrada
-                        let formElement: HTMLFormElement | null;
+                    callback: async (html: JQuery | HTMLElement) => {
+                        const $html = $(html);
+                        initializeFormHandlers($html); // Initialize handlers before form processing
+                        const form = $html.find('form')[0];
+                        if (!form) return;
                         
-                        if (htmlOrJQuery instanceof HTMLElement) {
-                            formElement = htmlOrJQuery.querySelector('form');
-                        } else {
-                            const form = htmlOrJQuery.find('form');
-                            formElement = form.length > 0 ? form[0] as HTMLFormElement : null;
-                        }
-
-                        if (!formElement) return;
-                        
-                        // Processa dados do formulário e cria monstro
-                        const formData = new FormData(formElement);
+                        const formData = new FormData(form);
                         const mode = formData.get('mode') as 'Template' | 'Guiado';
                         const type = formData.get('monsterType') as MonsterType;
                         const name = formData.get('monsterName') as string;
 
-                        // Manipula modo Template - usa valores predefinidos
                         if (mode === 'Template') {
                             const nd = formData.get('nd') as string;
                             const attributes = builder.generateMonsterFromTemplate(nd, type);
-                            await builder.createMonsterActor({ ...attributes, name, type });
-                        } 
-                        // Manipula modo Guiado - calcula ND a partir dos valores inseridos
-                        else {
+                            if (attributes) {
+                                await builder.createMonsterActor({ ...attributes, name, type });
+                            }
+                        } else {
                             const attributes = {
-                                nd: '0', // Será calculado como média
-                                valorAtaque: parseInt(formData.get('ndValorAtaque') as string),
-                                danoMedio: parseInt(formData.get('ndDanoMedio') as string),
-                                defesa: parseInt(formData.get('ndDefesa') as string),
-                                resistenciaForte: parseInt(formData.get('ndResistenciaForte') as string),
-                                resistenciaMedia: parseInt(formData.get('ndResistenciaMedia') as string),
-                                resistenciaFraca: parseInt(formData.get('ndResistenciaFraca') as string),
-                                pv: parseInt(formData.get('ndPV') as string),
-                                efeitoPadraoCd: parseInt(formData.get('ndEfeitoPadraoCd') as string)
+                                nd: '0',
+                                valorAtaque: parseInt(formData.get('ndValorAtaque') as string) || 1,
+                                danoMedio: parseInt(formData.get('ndDanoMedio') as string) || 1,
+                                defesa: parseInt(formData.get('ndDefesa') as string) || 10,
+                                resistenciaForte: parseInt(formData.get('ndResistenciaForte') as string) || 0,
+                                resistenciaMedia: parseInt(formData.get('ndResistenciaMedia') as string) || 0,
+                                resistenciaFraca: parseInt(formData.get('ndResistenciaFraca') as string) || 0,
+                                pv: parseInt(formData.get('ndPV') as string) || 1,
+                                efeitoPadraoCd: parseInt(formData.get('ndEfeitoPadraoCd') as string) || 10
                             };
                             
                             const finalND = builder.calculateFinalND(attributes);
@@ -78,8 +71,13 @@ Hooks.on('renderActorDirectory', (_app: Application, html: JQuery<HTMLElement>) 
                     label: 'Cancelar'
                 }
             },
+            render: (html: JQuery | HTMLElement) => {
+                const $html = $(html);
+                initializeFormHandlers($html);
+            },
             default: 'submit'
         });
+        
         dialog.render(true);
     });
 
