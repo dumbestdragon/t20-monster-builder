@@ -6,19 +6,19 @@
     "author": "Dumb Dragon",
     "systems": ["tormenta20"],
     "scripts": [
-        "module/module/monsterBuilder.js",
-        "module/module/monsterTables.js",
-        "module/module/types.js",
-        "module/module/form-handler.js",
-        "module/module/main.js"
+        "./module/module/monsterBuilder.js",
+        "./module/module/monsterTables.js",
+        "./module/module/types.js",
+        "./module/module/form-handler.js",
+        "./module/module/main.js"
     ],
-    "styles": ["styles/monster-builder.css"],
-    "templates": ["templates/monster-builder.html"],
+    "styles": ["./styles/monster-builder.css"],
+    "templates": ["./templates/monster-builder.html"],
     "languages": [
         {
             "lang": "pt-BR",
             "name": "Português (Brasil)",
-            "path": "languages/pt-BR.json"
+            "path": "./languages/pt-BR.json"
         }
     ],
     "minimumCoreVersion": "9",
