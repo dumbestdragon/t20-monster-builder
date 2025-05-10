@@ -11,6 +11,8 @@ Hooks.once('init', () => {
 
 // Adjusted type handling to support both HTMLElement and JQuery<HTMLElement>
 Hooks.on('renderActorDirectory', (_app: Application, html: HTMLElement | JQuery<HTMLElement>) => {
+    console.log('renderActorDirectory hook triggered'); // Debugging log
+
     const builder = new MonsterBuilder();
 
     const button = document.createElement('button');
@@ -18,6 +20,7 @@ Hooks.on('renderActorDirectory', (_app: Application, html: HTMLElement | JQuery<
     button.innerHTML = '<i class="fas fa-dragon"></i> Criar Monstro';
 
     button.addEventListener('click', async () => {
+        console.log('Create Monster button clicked'); // Debugging log
         const content = await renderTemplate('modules/t20-monster-builder/templates/monster-builder.html', {
             ndOptions: Array.from({ length: 20 }, (_, i) => i + 1)
         });
@@ -29,6 +32,7 @@ Hooks.on('renderActorDirectory', (_app: Application, html: HTMLElement | JQuery<
                 submit: {
                     label: 'Criar',
                     callback: async (html: HTMLElement | JQuery<HTMLElement>) => {
+                        console.log('Dialog submitted'); // Debugging log
                         const form = html instanceof HTMLElement
                             ? html.querySelector('form')
                             : html.find('form')[0];
@@ -69,6 +73,7 @@ Hooks.on('renderActorDirectory', (_app: Application, html: HTMLElement | JQuery<
                 }
             },
             render: (html: HTMLElement | JQuery<HTMLElement>) => {
+                console.log('Dialog rendered'); // Debugging log
                 if (html instanceof HTMLElement) {
                     initializeFormHandlers($(html));
                 } else {
@@ -86,8 +91,12 @@ Hooks.on('renderActorDirectory', (_app: Application, html: HTMLElement | JQuery<
         : html.find('.directory-header .action-buttons');
 
     if (header instanceof HTMLElement) {
+        console.log('Appending button to header (HTMLElement)'); // Debugging log
         header.appendChild(button);
     } else if (header && 'length' in header && header.length > 0) {
+        console.log('Appending button to header (jQuery)'); // Debugging log
         header.append(button);
+    } else {
+        console.error('Header not found'); // Debugging log
     }
 });
